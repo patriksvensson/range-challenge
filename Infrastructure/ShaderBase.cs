@@ -8,6 +8,7 @@ namespace TermShader.Infrastructure;
 
 public abstract class ShaderBase
 {
+    readonly static Vector3 _27   = new(27);
     readonly static Vector3 _255  = new(255);
 
     public static float Smoothstep(float edge0, float edge1, float x)
@@ -22,6 +23,14 @@ public abstract class ShaderBase
     {
       var C=Clamp(c,Zero,One)*_255;
       return new((byte)C.X,(byte)C.Y,(byte)C.Z);
+    }
+
+    public static Vector3 TanhApprox(Vector3 x)
+    {
+      Vector3
+        x2=x*x
+      ;
+      return Clamp(x*(_27+x2)/(_27+9*x2),-One,One);
     }
 
     public void Render(RenderContext context, double time)
