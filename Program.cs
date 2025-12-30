@@ -50,7 +50,6 @@ while (isRunning)
         if (Console.ReadKey(true).Key == ConsoleKey.Escape)
         {
             isRunning = false;
-            break;
         }
     }
 }
