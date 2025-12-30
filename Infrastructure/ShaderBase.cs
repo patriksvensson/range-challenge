@@ -50,7 +50,7 @@ public abstract class ShaderBase
                 if (c is not null)
                 {
                   // Resolution doubler: U+2580
-                  c.SetSymbol('▀');
+                  c.SetSymbol('\x2580');
                   c.SetForeground(Run(x, y+y+0));
                   c.SetBackground(Run(x, y+y+1));
                 }

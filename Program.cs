@@ -2,19 +2,24 @@
 using System.Diagnostics;
 using TermShader.Infrastructure;
 
-Console.WriteLine("Box or fractal?");
-Console.WriteLine("1. A box please");
-Console.WriteLine("2. A fractal sounds nice");
-Console.Write("Enter your choice (1-2): ");
+ShaderBase? shader=null;
+while(shader is null)
+{
+    Console.WriteLine("What do you want?");
+    Console.WriteLine("1. A box please");
+    Console.WriteLine("2. A fractal sounds nice");
+    Console.WriteLine("3. Show me a landscape");
+    Console.Write("Enter your choice (1-3): ");
 
-ShaderBase shader =
-  Console.ReadLine() switch
-  {
-    "1" => new BoxShader()
-  , "2" => new ApolloShader()
-  , _   => Random.Shared.NextDouble()>.5?new BoxShader():new ApolloShader()
-  };
-
+    shader =
+      Console.ReadLine() switch
+      {
+        "1" => new BoxShader()
+      , "2" => new ApolloShader()
+      , "3" => new LandscapeShader()
+      , _   => null
+      };
+}
 
 var isRunning = true;
 Console.CancelKeyPress += (e, s) =>
