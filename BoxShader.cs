@@ -9,10 +9,10 @@ public sealed class BoxShader : ShaderBase
 {
   readonly static Vector3 _Base = new(-0.7F,-0.2F,0.3F);
 
-  float     _inv ;
-  float     _fad ;
-  Vector2   _res ;
-  Vector3   _rot ;
+  float   _inv;
+  float   _fad;
+  Vector2 _res;
+  Vector3 _rot;
 
   protected override void Setup(int width, int height, double time)
   {
@@ -22,7 +22,7 @@ public sealed class BoxShader : ShaderBase
     _res=new(width, height);
     _inv=1/_res.Y;
     _rot=Normalize(Sin(new Vector3(t)+new Vector3(0,1,2)));
-    _fad=.5F*Smoothstep(0,2,t);
+    _fad=.5F;
   }
 
   protected override Color Run(int x, int y)
@@ -47,8 +47,8 @@ public sealed class BoxShader : ShaderBase
       i
     ;
 
-    // No comments needed...
-    for(i=0; i<49&&z<4&&d>1e-3; ++i)
+    // No comments necessary...
+    for(i=0;i<49&&z<4&&d>1e-3;++i)
     {
       P=z*R;
       P.Z-=3;
@@ -59,9 +59,9 @@ public sealed class BoxShader : ShaderBase
     }
 
     return ToColor(
-      z<4
-      ?_fad*(One+Sin(_Base-new Vector3(i/33F+2*(p.X+p.Y))))
-      :Zero
+        z<4
+      ? _fad*(One+Sin(_Base-new Vector3(i/33F+2*(p.X+p.Y))))
+      : Zero
       );
   }
 }
