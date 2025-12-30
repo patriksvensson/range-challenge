@@ -3,8 +3,9 @@ using System.Numerics;
 using TermShader.Infrastructure;
 
 using static System.Math;
+using static System.Numerics.Vector3;
 
-public sealed class Shader : ShaderBase
+public sealed class BoxShader : ShaderBase
 {
   readonly static Vector3 _0    = new(0);
   readonly static Vector3 _1    = new(1);
@@ -13,41 +14,38 @@ public sealed class Shader : ShaderBase
 
   static Color ToColor(Vector3 c) 
   {
-    var C=Vector3.Clamp(c,_0,_1)*_255;
+    var C=Clamp(c,_0,_1)*_255;
     return new((byte)C.X,(byte)C.Y,(byte)C.Z);
   }
 
-  float     _iy  ;
+  float     _inv ;
   Vector2   _res ;
-  Vector2   _x   ;
-  Vector2   _y   ;
+  Vector3   _rot ;
 
   protected override void Setup(int width, int height, double time)
   {
-    _res =new(width, height);
-    _iy = 1/_res.Y;
-    var (c,s) = SinCos(time);
-    _x = new((float)+c,(float)+s);
-    _y = new((float)-s,(float)+c);
+    _res=new(width, height);
+    _inv=1/_res.Y;
+    _rot=Normalize(Sin(new Vector3((float)time)+new Vector3(0,1,2)));
   }
 
   protected override Color Run(int x, int y)
   {
     Vector2 
-      c = new (x,y)
-    , p = (c+c-_res)*_iy
-    , t
+      c=new (x,y)
+    , p=(c+c-_res)*_inv
     ;
 
     Vector3
-      C = _0
+      C=_0
     , P
-    , R = Vector3.Normalize(new(p.X,p.Y,2))
+    , R=Normalize(new(p.X,p.Y,2))
+    , r=_rot
     ;
 
     float
-      z = 0
-    , d = 1
+      z=0
+    , d=1
     ;
 
     int 
@@ -59,21 +57,14 @@ public sealed class Shader : ShaderBase
     {
       P=z*R;
       P.Z-=3;
-      t=new(P.X,P.Z);
-      t=new(Vector2.Dot(t,_x),Vector2.Dot(t,_y));
-      P.X=t.X;
-      P.Z=t.Y;
-      t=new(P.X,P.Y);
-      t=new(Vector2.Dot(t,_x),Vector2.Dot(t,_y));
-      P.X=t.X;
-      P.Y=t.Y;
+      P=Dot(P,r)*r+Cross(P,_rot);
       P*=P;
-      d=(float)Sqrt(Sqrt(Vector3.Dot(P,P)))-1;
+      d=(float)Sqrt(Sqrt(Dot(P,P)))-1;
       z+=d;
     }
 
     if (z<4) 
-      C=.5F*(_1+Vector3.Sin(_Base-new Vector3(i/33F+2*(p.X+p.Y))));
+      C=.5F*(_1+Sin(_Base-new Vector3(i/33F+2*(p.X+p.Y))));
 
     return ToColor(C);
   }
