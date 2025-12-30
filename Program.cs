@@ -1,6 +1,13 @@
 ﻿using Spectre.Tui;
 using System.Diagnostics;
 
+var isRunning = true;
+Console.CancelKeyPress += (e, s) =>
+{
+    s.Cancel = true;
+    isRunning = false;
+};
+
 using var terminal = Terminal.Create();
 var renderer = new Renderer(terminal);
 var shader = new BoxShader();
@@ -9,7 +16,7 @@ var sw = Stopwatch.StartNew();
 var text = Text.FromMarkup("Created by [yellow]Mårten Rånge[/]");
 var text2 = Text.FromMarkup("Spectre.Tui");
 
-while (true)
+while (isRunning)
 {
     renderer.Draw((ctx, elapsed) =>
     {
@@ -27,7 +34,7 @@ while (true)
     {
         if (Console.ReadKey(true).Key == ConsoleKey.Q)
         {
-            break;
+            isRunning = false;
         }
     }
 }
