@@ -10,6 +10,8 @@ public sealed class LandscapeShader : ShaderBase
   float     _time;
   Vector2   _res;
 
+  public override string Name { get; } = "Landscape";
+
   protected override void Setup(int width, int height, double time)
   {
     _time=(float)time;

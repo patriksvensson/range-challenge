@@ -14,6 +14,8 @@ public sealed class BoxShader : ShaderBase
   Vector2 _res;
   Vector3 _rot;
 
+  public override string Name { get; } = "Rotating box";
+
   protected override void Setup(int width, int height, double time)
   {
     float

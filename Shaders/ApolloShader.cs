@@ -15,6 +15,8 @@ public sealed class ApolloShader : ShaderBase
   Vector2 _res;
   Vector3 _rot;
 
+  public override string Name { get; } = "Fractals";
+
   protected override void Setup(int width, int height, double time)
   {
     float

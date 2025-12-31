@@ -1,25 +1,17 @@
 ﻿using Spectre.Tui;
 using System.Diagnostics;
+using Spectre.Console;
 using TermShader.Infrastructure;
+using Text = Spectre.Tui.Text;
 
-ShaderBase? shader=null;
-while(shader is null)
-{
-    Console.WriteLine("What do you want?");
-    Console.WriteLine("1. A box please");
-    Console.WriteLine("2. A fractal sounds nice");
-    Console.WriteLine("3. Show me a landscape");
-    Console.Write("Enter your choice (1-3): ");
-
-    shader =
-      Console.ReadLine() switch
-      {
-        "1" => new BoxShader()
-      , "2" => new ApolloShader()
-      , "3" => new LandscapeShader()
-      , _   => null
-      };
-}
+var shader = new SelectionPrompt<ShaderBase>()
+    .Title("[yellow]What do you want to run?[/]")
+    .UseConverter(c => c.Name)
+    .AddChoices(
+        new BoxShader(),
+        new ApolloShader(),
+        new LandscapeShader())
+    .Show(AnsiConsole.Console);
 
 var isRunning = true;
 Console.CancelKeyPress += (e, s) =>

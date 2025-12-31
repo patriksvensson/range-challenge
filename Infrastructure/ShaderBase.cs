@@ -10,6 +10,8 @@ public abstract class ShaderBase
 {
     readonly static Vector3 _27   = new(27);
     readonly static Vector3 _255  = new(255);
+    
+    public abstract string Name { get; }
 
     public static float Smoothstep(float edge0, float edge1, float x)
     {
