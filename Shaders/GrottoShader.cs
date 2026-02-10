@@ -59,7 +59,7 @@ public sealed class GrottoShader : ShaderBase
       p=FusedMultiplyAdd(new(z),R,_O);
     }
 
-    o=FusedMultiplyAdd(new((1E3F+1E3F*_F)/p.AsVector2().Length()),new Vector4(2,1,0,3),o);
+    o=FusedMultiplyAdd(new((1E3F+1E3F*_F)/(1E-4F+p.AsVector2().Length())),new Vector4(2,1,0,3),o);
     o*=2E-5F;
 
     return ToColor(TanhApprox(o.AsVector3()));
