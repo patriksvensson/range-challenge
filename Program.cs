@@ -10,7 +10,8 @@ var shader = new SelectionPrompt<ShaderBase>()
     .AddChoices(
         new BoxShader(),
         new ApolloShader(),
-        new LandscapeShader())
+        new LandscapeShader(),
+        new GrottoShader())
     .Show(AnsiConsole.Console);
 
 var isRunning = true;
