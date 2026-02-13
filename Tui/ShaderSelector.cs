@@ -17,14 +17,21 @@ internal sealed class ShaderSelector
         }
     }
 
+    static ShaderListItem NewShaderListItem<T>()
+        where T : ShaderBase, new()
+    {
+        var shader = new T();
+        return new (shader.Name, () => shader);
+    }
+
     public static ShaderBase? Select(Renderer renderer, CancellationToken cancellationToken)
     {
         var list = new ListWidget<ShaderListItem>(
-            new ShaderListItem("Rotating box", () => new BoxShader()),
-            new ShaderListItem("Fractals", () => new ApolloShader()),
-            new ShaderListItem("Landscape", () => new LandscapeShader()),
-            new ShaderListItem("Glowing grotto", () => new GrottoShader()),
-            new ShaderListItem("Nothing Special", () => new NothingSpecialShader()))
+            NewShaderListItem<BoxShader>(),
+            NewShaderListItem<ApolloShader>(),
+            NewShaderListItem<LandscapeShader>(),
+            NewShaderListItem<GrottoShader>(),
+            NewShaderListItem<NothingSpecialShader>())
             .SelectedIndex(0)
             .WrapAround()
             .HighlightStyle(new Style(Color.Yellow))
