@@ -17,7 +17,6 @@ public static class Program
         using var terminal = Terminal.Create();
         var renderer = new Renderer(terminal);
         renderer.SetTargetFps(60);
-        
 
         // Ask the user to select a shader
         var shader = ShaderSelector.Select(renderer, cst.Token);

@@ -26,7 +26,8 @@ internal sealed class ShaderSelector
             new ShaderListItem("Glowing grotto", () => new GrottoShader()))
             .SelectedIndex(0)
             .WrapAround()
-            .HighlightSymbol("> ");
+            .HighlightStyle(new Style(Color.Yellow))
+            .HighlightSymbol("→ ");
 
         var isRunning = true;
         while (isRunning && !cancellationToken.IsCancellationRequested)
