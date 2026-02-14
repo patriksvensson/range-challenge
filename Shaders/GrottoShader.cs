@@ -1,6 +1,7 @@
 using Spectre.Tui;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.Intrinsics;
 using TermShader.Infrastructure;
 
 using static System.MathF;
@@ -41,6 +42,7 @@ public sealed class GrottoShader : ShaderBase
     , C=.7F*U
     , R=Vector3.Normalize(new(new Vector2(x,_R.Y-y)-_R2,_R.Y)).AsVector4()
     , X
+    , M=Vector128.Create(0,0,~0,~0).AsSingle().AsVector4()
     ;
 
     float
@@ -54,7 +56,7 @@ public sealed class GrottoShader : ShaderBase
       s=p.Y+.1F;
       p.Y=Abs(s)-.11F;
       X=Vector3.Cos(new Vector3(p.Z+p.Z)+new Vector3(0,11,33)).AsVector4();
-      p=FusedMultiplyAdd(Shuffle(X,2,1,3,3),Shuffle(p,1,0,2,3),(Shuffle(X,0,0,3,3)+Shuffle(U,2,2,1,1))*p);
+      p=FusedMultiplyAdd(Shuffle(X,2,1,3,3),Shuffle(p,1,0,2,3),FusedMultiplyAdd(Shuffle(X,0,0,3,3),p,BitwiseAnd(p,M)));
       p.Y-=.2F;
       d=.3F*Abs(G(p,8)-G(p,24));
       p=One+Cos(FusedMultiplyAdd(_5,new(p.Z),C));

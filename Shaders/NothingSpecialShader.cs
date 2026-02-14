@@ -1,5 +1,6 @@
 using Spectre.Tui;
 using System.Numerics;
+using System.Runtime.Intrinsics;
 using TermShader.Infrastructure;
 
 using static System.MathF;
@@ -38,6 +39,8 @@ public sealed class NothingSpecialShader : ShaderBase
     Vector4
       U=new(2,1,0,3)
     , Y
+    , e
+    , M=Vector128.Create(0,0,~0,~0).AsSingle().AsVector4()
     ;
 
     for(int i=0;i<66;++i)
@@ -45,7 +48,9 @@ public sealed class NothingSpecialShader : ShaderBase
       p=FusedMultiplyAdd(new(z),R,O);
       X=p;
       Y=Cos(new Vector3(.4F*p.Z)+new Vector3(0,11,33)).AsVector4();
-      p=FusedMultiplyAdd(Vector4.Shuffle(Y,2,1,3,3).AsVector3(), Shuffle(p,1,0,2), (Vector4.Shuffle(Y,0,0,3,3)+Vector4.Shuffle(U,2,2,1,1)).AsVector3()*p);
+      e=p.AsVector4();
+      e=Vector4.FusedMultiplyAdd(Vector4.Shuffle(Y,2,1,3,3),Vector4.Shuffle(e,1,0,2,3),Vector4.FusedMultiplyAdd(Vector4.Shuffle(Y,0,0,3,3),e,Vector4.BitwiseAnd(e,M)));
+      p=e.AsVector3();
       p-=new Vector3(.5F);
       p-=Round(p);
       p=(p*p)*(p*p);
