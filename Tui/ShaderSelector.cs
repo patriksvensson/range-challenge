@@ -31,7 +31,8 @@ internal sealed class ShaderSelector
             NewShaderListItem<ApolloShader>(),
             NewShaderListItem<LandscapeShader>(),
             NewShaderListItem<GrottoShader>(),
-            NewShaderListItem<NothingSpecialShader>())
+            NewShaderListItem<NothingSpecialShader>(),
+            NewShaderListItem<StarFieldShader>())
             .SelectedIndex(0)
             .WrapAround()
             .HighlightStyle(new Style(Color.Yellow))

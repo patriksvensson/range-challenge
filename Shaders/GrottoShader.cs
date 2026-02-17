@@ -32,7 +32,7 @@ public sealed class GrottoShader : ShaderBase
     return Abs(Dot(S,Shuffle(C,2,0,3,1))-1)/s;
   }
 
-  protected override Color Run(int x, int y)
+  protected override Color Run(int x, int y, Color previous)
   {
     Vector4
       o=Zero

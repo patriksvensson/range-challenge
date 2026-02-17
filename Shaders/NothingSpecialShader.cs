@@ -21,7 +21,7 @@ public sealed class NothingSpecialShader : ShaderBase
     _R2=.5F*_R;
   }
 
-  protected override Color Run(int x, int y)
+  protected override Color Run(int x, int y, Color previous)
   {
     float
       d

@@ -18,7 +18,7 @@ public sealed class LandscapeShader : ShaderBase
     _res=new(width, height);
   }
 
-  protected override Color Run(int x, int y)
+  protected override Color Run(int x, int y, Color previous)
   {
     float
         d=1
