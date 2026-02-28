@@ -10,6 +10,7 @@
     <IsAotCompatible>true</IsAotCompatible>
     <StripSymbols>true</StripSymbols>
     <IsTrimmable>true</IsTrimmable>
+    <TieredCompilation>false</TieredCompilation>
   </PropertyGroup>
 
   <ItemGroup>
